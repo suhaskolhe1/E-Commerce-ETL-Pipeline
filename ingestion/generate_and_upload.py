@@ -5,12 +5,15 @@ from datetime import datetime, timedelta
 from faker import Faker
 import uuid
 import random
+from dotenv import load_dotenv
+
+load_dotenv()
 
 fake = Faker()
 
 # Configuration
 S3_BUCKET = os.getenv('S3_BUCKET_NAME', 'olist-ecommerce-data-lake-123')
-UPLOAD_TO_S3 = os.getenv('UPLOAD_TO_S3', 'false').lower() == 'true'
+UPLOAD_TO_S3 = os.getenv('UPLOAD_TO_S3', 'true').lower() == 'true'
 NUM_CUSTOMERS = 100
 NUM_PRODUCTS = 50
 NUM_ORDERS = 200
@@ -79,8 +82,14 @@ def save_and_upload(data, filename, s3_client, dt_partition):
             
     if UPLOAD_TO_S3:
         s3_key = f"raw/dt={dt_partition}/{filename}"
-        s3_client.upload_file(local_path, S3_BUCKET, s3_key)
-        print(f"Uploaded {filename} to s3://{S3_BUCKET}/{s3_key}")
+        try:
+            s3_client.upload_file(local_path, S3_BUCKET, s3_key)
+            print(f"Uploaded {filename} to s3://{S3_BUCKET}/{s3_key}")
+        except Exception as e:
+            if "NoCredentialsError" in str(type(e)):
+                print(f"Failed to upload {filename}: AWS credentials not found. Please ensure AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY are set.")
+            else:
+                print(f"Failed to upload {filename} to S3: {e}")
     else:
         print(f"Saved {filename} locally to {local_path} (S3 upload disabled)")
 
