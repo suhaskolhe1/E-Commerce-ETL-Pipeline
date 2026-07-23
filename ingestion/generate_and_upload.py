@@ -5,12 +5,15 @@ from datetime import datetime, timedelta
 from faker import Faker
 import uuid
 import random
+from dotenv import load_dotenv
+
+load_dotenv()
 
 fake = Faker()
 
 # Configuration
 S3_BUCKET = os.getenv('S3_BUCKET_NAME', 'olist-ecommerce-data-lake-123')
-UPLOAD_TO_S3 = os.getenv('UPLOAD_TO_S3', 'false').lower() == 'true'
+UPLOAD_TO_S3 = os.getenv('UPLOAD_TO_S3', 'true').lower() == 'true'
 NUM_CUSTOMERS = 100
 NUM_PRODUCTS = 50
 NUM_ORDERS = 200
