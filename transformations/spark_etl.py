@@ -6,7 +6,9 @@ from pyspark.sql.window import Window
 # Configuration
 S3_BUCKET = os.getenv('S3_BUCKET_NAME', 'olist-ecommerce-data-lake-123')
 RUN_LOCAL = os.getenv('RUN_LOCAL', 'true').lower() == 'true'
-DT_PARTITION = os.getenv('DT_PARTITION', '2026-07-22')
+from datetime import datetime
+
+DT_PARTITION = os.getenv('DT_PARTITION', datetime.now().strftime('%Y-%m-%d'))
 
 def create_spark_session():
     builder = SparkSession.builder.appName("OlistETL")
