@@ -14,9 +14,13 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-      SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
-      SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
-      SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+      REDSHIFT_HOST: ${{ secrets.REDSHIFT_HOST }}
+      REDSHIFT_PORT: ${{ secrets.REDSHIFT_PORT }}
+      REDSHIFT_DATABASE: ${{ secrets.REDSHIFT_DATABASE }}
+      REDSHIFT_USER: ${{ secrets.REDSHIFT_USER }}
+      REDSHIFT_PASSWORD: ${{ secrets.REDSHIFT_PASSWORD }}
+      REDSHIFT_IAM_ROLE: ${{ secrets.REDSHIFT_IAM_ROLE }}
+      AWS_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       UPLOAD_TO_S3: 'true'
       RUN_LOCAL: 'false'
       
@@ -48,6 +52,6 @@ jobs:
       run: |
         python transformations/spark_etl.py
         
-    - name: Step 3 - Load to Snowflake
+    - name: Step 3 - Load to AWS Redshift
       run: |
-        python transformations/load_snowflake.py
+        python transformations/load_redshift.py

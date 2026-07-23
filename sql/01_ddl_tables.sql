@@ -1,19 +1,6 @@
--- Use system admin role
-USE ROLE SYSADMIN;
-
--- Create a dedicated compute warehouse
-CREATE WAREHOUSE IF NOT EXISTS OLIST_WH
-  WITH WAREHOUSE_SIZE = 'XSMALL'
-  AUTO_SUSPEND = 60
-  AUTO_RESUME = TRUE
-  INITIALLY_SUSPENDED = TRUE;
-
--- Create Database and Schema
-CREATE DATABASE IF NOT EXISTS OLIST_DB;
-CREATE SCHEMA IF NOT EXISTS OLIST_DB.STAR_SCHEMA;
-
-USE DATABASE OLIST_DB;
-USE SCHEMA STAR_SCHEMA;
+-- Create Schema
+CREATE SCHEMA IF NOT EXISTS star_schema;
+SET search_path TO star_schema;
 
 -- Dimensions
 CREATE TABLE IF NOT EXISTS dim_customer (
