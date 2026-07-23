@@ -91,7 +91,10 @@ if __name__ == "__main__":
     orders, order_items = generate_orders_and_items(NUM_ORDERS, customers, products)
     
     dt_partition = datetime.now().strftime('%Y-%m-%d')
-    s3_client = boto3.client('s3') if UPLOAD_TO_S3 else None
+    region = os.getenv('AWS_DEFAULT_REGION')
+    if not region:
+        region = 'us-east-1'
+    s3_client = boto3.client('s3', region_name=region) if UPLOAD_TO_S3 else None
     
     # Ensure /tmp exists on Windows for local testing, or use a local data dir
     os.makedirs('/tmp', exist_ok=True)
