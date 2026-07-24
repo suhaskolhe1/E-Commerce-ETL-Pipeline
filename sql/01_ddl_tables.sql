@@ -6,9 +6,9 @@ SET search_path TO star_schema;
 CREATE TABLE IF NOT EXISTS dim_customer (
     customer_id VARCHAR(50) PRIMARY KEY,
     customer_unique_id VARCHAR(50),
-    customer_zip_code_prefix VARCHAR(10),
+    customer_zip_code_prefix VARCHAR(20),
     customer_city VARCHAR(100),
-    customer_state VARCHAR(2)
+    customer_state VARCHAR(50)
 );
 
 CREATE TABLE IF NOT EXISTS dim_product (
